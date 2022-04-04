@@ -41,5 +41,5 @@ exports.deleteUser = (req, res) => {
   
         res.send('User deleted.');
     });
-    s
+    
 }
