@@ -2,8 +2,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 8000;
-const connection = require('./db/db')
+const port = process.env.PORT || 4000;
+const connection = require('./db/db');
 
 // Middleware
 app.use(express.json());
@@ -16,5 +16,7 @@ app.listen(port, () => {
   console.log(`server is up on running port ${port}`);
 });
 
-
+app.get('/', (req, res)=>{
+  res.send("hassssss")
+})
 
