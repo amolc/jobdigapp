@@ -1,4 +1,5 @@
 const connection = require("./db/db");
+
 const helper = {
   get: (search_query) => {
     return new Promise((resolve, reject) => {
@@ -24,6 +25,7 @@ const helper = {
       });
     });
   },
+  
 };
 
 module.exports = helper;

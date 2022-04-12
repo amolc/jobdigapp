@@ -16,13 +16,14 @@ router.delete("/admin/:id", adminController.deleteAdmin);
 router.put("/admin/:id", adminController.updateAdmin);
 
 //candidate
-router.get("/user", userController.getAllData);
+router.get("/user/all", userController.getAllData);
 router.post("/user", userController.CreateCandidiate);
-router.put("/user/:id", userController.updateUser);
-router.get("/user/:id", userController.findUser);
+router.put("/user", userController.updateUser);
+router.get("/user/single", userController.findUser);
 router.get("/signInCandidate/:email/:password", userController.signInCandidate);
-router.delete("/user/:id", userController.deleteUser);
+router.delete("/user", userController.deleteUser);
 router.post("/applyToJob", userController.applyToJob);
+
 //PostJob
 router.get("/postjob", postJob.getallPostJob);
 router.post("/addJob", postJob.postJob);
@@ -35,5 +36,6 @@ router.post("/employee/signup", employeeController.employeeSignUp);
 router.post("/employee/login", employeeController.employeeLogin);
 router.post("/selectedJob", employeeController.selectedJob);
 router.post("/markAsCompleted", employeeController.markAsCompleted);
+router.delete("/employee/delete", employeeController.deleteEmployee);
 
 module.exports = router;

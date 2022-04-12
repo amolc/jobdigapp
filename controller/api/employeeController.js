@@ -73,6 +73,38 @@ exports.employeeSignUp = async (req, res) => {
   }
 };
 
+exports.deleteEmployee = (req, res) => {
+  const id = req.query;
+  console.log(id);
+
+  if (!id)
+    return res.status(422).send({
+      success: false,
+      msg: "Id is missing",
+    });
+
+  connection.query(
+    "DELETE FROM Employee WHERE emp_id = ?",
+    [req.query.id],
+    (err, result, fields) => {
+      if (err) {
+        return res.status(500).json({
+          message: "Something Went Wrong",
+          err: err,
+          success: false,
+        });
+      } else {
+        return res.status(200).json({
+          message: "Employee Deleted Successfully",
+          success: true,
+          result,
+        });
+      }
+    }
+  );
+};
+
+
 exports.employeeLogin = async (req, res) => {
   try {
     let { emp_email, emp_password } = req.body;

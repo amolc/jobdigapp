@@ -1,8 +1,10 @@
 const connection = require("../../db/db");
 const helper = require("../../helper");
 const mysql = require("mysql");
+const { response } = require("express");
 
-exports.CreateCandidiate = (req, res) => {
+exports.CreateCandidiate = (req, res) => 
+{
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(422).send({
@@ -19,6 +21,7 @@ exports.CreateCandidiate = (req, res) => {
     });
   });
 };
+
 exports.signInCandidate = (req, res) => {
   const { email, password } = req.params;
   if (!email)
@@ -48,15 +51,20 @@ exports.signInCandidate = (req, res) => {
 };
 
 exports.findUser = (req, res) => {
-  const id = req.params;
+
+  const id = req.query;
+
+  console.log(id);
+
   if (!id)
     return res.status(422).send({
       success: false,
       msg: "required params are missing",
     });
+
   connection.query(
-    `select * from Candidate WHERE ID = ?`,
-    [req.params.id],
+    `select * from Candidate WHERE id = ?`,
+    [req.query.id],
     (err, result, fields) => {
       if (err) {
         return res.status(500).json({
@@ -73,7 +81,9 @@ exports.findUser = (req, res) => {
     }
   );
 };
+
 exports.getAllData = (req, res) => {
+
   connection.query(
     `select id,name,img,description,job from Candidate `,
     (err, result, fields) => {
@@ -95,16 +105,23 @@ exports.getAllData = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  const id = req.params.id;
+  const {id} = req.body;
 
+  console.log(req.body);
+
+  if (!id)
+    return res.status(422).send({
+      success: false,
+      msg: "User ID is missing",
+    });
   connection.query(
     "UPDATE Candidate SET job = ? WHERE id = ?",
-    [req.body.job, id],
+    [req.body.job, req.body.id],
     (error, result) => {
-      if (err) {
+      if (error) {
         return res.status(500).json({
           message: "Something Went Wrong",
-          err: err,
+          err: error,
           success: false,
         });
       } else {
@@ -117,10 +134,20 @@ exports.updateUser = (req, res) => {
     }
   );
 };
+
 exports.deleteUser = (req, res) => {
+  const id = req.query;
+  console.log(id);
+
+  if (!id)
+    return res.status(422).send({
+      success: false,
+      msg: "Id is missing",
+    });
+
   connection.query(
-    "DELETE FROM Candidate WHERE ID = ?",
-    [req.params.id],
+    "DELETE FROM Candidate WHERE id = ?",
+    [req.query.id],
     (err, result, fields) => {
       if (err) {
         return res.status(500).json({
@@ -130,7 +157,7 @@ exports.deleteUser = (req, res) => {
         });
       } else {
         return res.status(200).json({
-          message: "User Delete Successfully",
+          message: "User Deleted Successfully",
           success: true,
           result,
         });
